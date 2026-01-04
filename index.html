@@ -3,40 +3,70 @@
 <html lang="gu">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nilkanth Apartment - Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nilkanth Apartment - Society Management System</title>
+    <meta name="description" content="Professional digital receipt management system for Nilkanth Apartment Society. Generate, save, and print receipts easily.">
+    <meta name="theme-color" content="#0f172a">
+    
+    <!-- Open Graph for better social sharing -->
+    <meta property="og:title" content="Nilkanth Apartment Receipt System">
+    <meta property="og:description" content="Digital Billing & Receipt Management">
+    <meta property="og:type" content="website">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        :root {
+            --primary-red: #b32d2e;
+        }
         body {
             font-family: 'Inter', 'Noto Sans Gujarati', sans-serif;
-            background-color: #f8fafc;
+            background-color: #f1f5f9;
+            color: #1e293b;
         }
         @media print {
+            @page {
+                margin: 0;
+                size: auto;
+            }
             .no-print { display: none !important; }
             body { background: white; padding: 0; margin: 0; }
             .print-area { 
                 box-shadow: none !important; 
-                border: 3px solid #b32d2e !important;
-                margin: 0 !important;
+                border: 2px solid var(--primary-red) !important;
+                margin: 0 auto !important;
                 width: 100% !important;
-                max-width: 100% !important;
+                max-width: 800px !important;
+                transform: scale(0.95);
+                transform-origin: top center;
             }
         }
-        /* Custom scrollbar for better UX */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        /* Better transitions */
+        .transition-all { transition-duration: 300ms; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Input Focus */
+        input:focus, textarea:focus {
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        }
     </style>
-<script type="importmap">
+
+    <script type="importmap">
 {
   "imports": {
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "lucide-react": "https://esm.sh/lucide-react@0.460.0?external=react",
+    "date-fns": "https://esm.sh/date-fns@4.1.0",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "date-fns": "https://esm.sh/date-fns@^4.1.0"
+    "react/": "https://esm.sh/react@^19.2.3/"
   }
 }
 </script>

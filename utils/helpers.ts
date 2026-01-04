@@ -1,4 +1,6 @@
 
+// Import format from date-fns to handle date formatting for the CSV filename
+import { format } from 'date-fns';
 import { ReceiptData } from '../types';
 
 export const formatCurrency = (amount: number): string => {
@@ -10,6 +12,8 @@ export const formatCurrency = (amount: number): string => {
 };
 
 export const numberToWords = (num: number): string => {
+  if (num === 0) return 'Zero Only';
+  
   const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
   const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
 
@@ -19,25 +23,37 @@ export const numberToWords = (num: number): string => {
     if (n < 1000) return a[Math.floor(n / 100)] + 'Hundred ' + (n % 100 !== 0 ? inWords(n % 100) : '');
     if (n < 100000) return inWords(Math.floor(n / 1000)) + 'Thousand ' + (n % 1000 !== 0 ? inWords(n % 1000) : '');
     if (n < 10000000) return inWords(Math.floor(n / 100000)) + 'Lakh ' + (n % 100000 !== 0 ? inWords(n % 100000) : '');
-    return 'Amount too large';
+    return '';
   };
 
-  const str = inWords(Math.floor(num));
-  return str ? str + 'Only' : '';
+  const amountInt = Math.floor(num);
+  const amountDec = Math.round((num - amountInt) * 100);
+  
+  let result = inWords(amountInt) + 'Rupees ';
+  if (amountDec > 0) {
+    result += 'and ' + inWords(amountDec) + 'Paise ';
+  }
+  
+  return result.trim() + ' Only';
 };
 
 export const exportToCSV = (data: ReceiptData[]) => {
-  const headers = ['Date', 'Receipt No', 'Name', 'House No', 'Total Amount', 'Payer'];
+  if (data.length === 0) return;
+
+  // Use BOM for Excel to recognize UTF-8 (crucial for Gujarati names)
+  const BOM = '\uFEFF';
+  const headers = ['Date', 'Receipt No', 'Name', 'House No', 'Total Amount', 'Payer', 'Check Details'];
   const rows = data.map(r => [
     r.date,
     r.receiptNo,
-    `"${r.name}"`,
-    `"${r.houseNo}"`,
+    `"${r.name.replace(/"/g, '""')}"`,
+    `"${r.houseNo.replace(/"/g, '""')}"`,
     r.total,
-    `"${r.payer}"`
+    `"${r.payer.replace(/"/g, '""')}"`,
+    `"${r.checkDetails.replace(/"/g, '""')}"`
   ]);
 
-  const csvContent = [
+  const csvContent = BOM + [
     headers.join(','),
     ...rows.map(row => row.join(','))
   ].join('\n');
@@ -46,7 +62,7 @@ export const exportToCSV = (data: ReceiptData[]) => {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.setAttribute('href', url);
-  link.setAttribute('download', `Nilkanth_Apartment_Report_${new Date().toISOString().split('T')[0]}.csv`);
+  link.setAttribute('download', `Nilkanth_Society_Report_${format(new Date(), 'yyyy-MM-dd')}.csv`);
   link.style.visibility = 'hidden';
   document.body.appendChild(link);
   link.click();
