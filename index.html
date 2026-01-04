@@ -25,23 +25,50 @@
             background-color: #f1f5f9;
             color: #1e293b;
         }
+
+        /* A4 Print Optimization */
         @media print {
             @page {
-                margin: 0;
-                size: auto;
+                size: A4 portrait;
+                margin: 15mm 10mm; /* Professional margins */
             }
-            .no-print { display: none !important; }
-            body { background: white; padding: 0; margin: 0; }
-            .print-area { 
-                box-shadow: none !important; 
-                border: 2px solid var(--primary-red) !important;
-                margin: 0 auto !important;
+            
+            html, body {
+                height: auto;
+                background-color: #ffffff !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .no-print { 
+                display: none !important; 
+            }
+
+            /* Container centering for A4 */
+            #root {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            .print-area {
                 width: 100% !important;
-                max-width: 800px !important;
-                transform: scale(0.95);
-                transform-origin: top center;
+                max-width: 100% !important;
+                box-shadow: none !important;
+                border: 4px double var(--primary-red) !important;
+                margin: 0 auto !important;
+                transform: none !important;
+                page-break-inside: avoid;
+            }
+
+            /* Fix for overlapping elements during print */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
         }
+
         /* Better transitions */
         .transition-all { transition-duration: 300ms; }
         
