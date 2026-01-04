@@ -24,64 +24,70 @@
             font-family: 'Inter', 'Noto Sans Gujarati', sans-serif;
             background-color: #f1f5f9;
             color: #1e293b;
+            margin: 0;
+            padding: 0;
         }
 
-        /* A4 Print Optimization */
+        /* A4 Print Optimization - STRICT 1 PAGE FIX */
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 15mm 10mm; /* Professional margins */
+                margin: 0 !important; /* Remove browser defaults */
             }
             
             html, body {
-                height: auto;
-                background-color: #ffffff !important;
+                height: 100vh !important;
+                width: 100vw !important;
+                background: white !important;
+                overflow: hidden !important; /* Prevent extra pages */
                 margin: 0 !important;
                 padding: 0 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
             }
 
             .no-print { 
                 display: none !important; 
             }
 
-            /* Container centering for A4 */
             #root {
-                padding: 0 !important;
+                height: 100% !important;
                 margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            /* The wrapper that ensures A4 scaling */
+            .print-container {
+                width: 210mm !important;
+                height: 297mm !important;
+                padding: 10mm !important;
+                box-sizing: border-box !important;
+                margin: 0 auto !important;
+                background: white !important;
+                position: relative !important;
+                display: block !important;
+                page-break-after: avoid !important;
+                page-break-before: avoid !important;
             }
 
             .print-area {
                 width: 100% !important;
-                max-width: 100% !important;
                 box-shadow: none !important;
+                margin: 0 !important;
                 border: 4px double var(--primary-red) !important;
-                margin: 0 auto !important;
-                transform: none !important;
-                page-break-inside: avoid;
             }
 
-            /* Fix for overlapping elements during print */
+            /* Standardized printing for colors */
             * {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
         }
 
-        /* Better transitions */
+        /* UI Styles */
         .transition-all { transition-duration: 300ms; }
-        
-        /* Custom scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-
-        /* Input Focus */
-        input:focus, textarea:focus {
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-        }
+        input:focus, textarea:focus { box-shadow: 0 0 0 2px rgba(179, 45, 46, 0.1); }
     </style>
 
     <script type="importmap">
@@ -100,7 +106,6 @@
 </head>
 <body>
     <div id="root"></div>
-    <!-- Entry point for the application -->
     <script type="module" src="index.tsx"></script>
 </body>
 </html>
