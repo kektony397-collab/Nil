@@ -32,14 +32,14 @@
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 0 !important; /* Remove browser defaults */
+                margin: 0mm !important; /* Total control over margins */
             }
             
             html, body {
-                height: 100vh !important;
-                width: 100vw !important;
+                height: 297mm !important;
+                width: 210mm !important;
                 background: white !important;
-                overflow: hidden !important; /* Prevent extra pages */
+                overflow: hidden !important;
                 margin: 0 !important;
                 padding: 0 !important;
             }
@@ -49,7 +49,7 @@
             }
 
             #root {
-                height: 100% !important;
+                height: 297mm !important;
                 margin: 0 !important;
                 padding: 0 !important;
             }
@@ -58,36 +58,46 @@
             .print-container {
                 width: 210mm !important;
                 height: 297mm !important;
-                padding: 10mm !important;
+                padding: 8mm !important; /* Safety padding inside A4 */
                 box-sizing: border-box !important;
                 margin: 0 auto !important;
                 background: white !important;
                 position: relative !important;
-                display: block !important;
-                page-break-after: avoid !important;
-                page-break-before: avoid !important;
+                display: flex !important;
+                flex-direction: column !important;
+                overflow: hidden !important;
             }
 
             .print-area {
                 width: 100% !important;
+                height: 100% !important;
                 box-shadow: none !important;
                 margin: 0 !important;
                 border: 4px double var(--primary-red) !important;
+                box-sizing: border-box !important;
             }
 
-            /* Standardized printing for colors */
+            /* Force colors and remove extra blank space */
             * {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
+                color-adjust: exact !important;
             }
         }
 
-        /* UI Styles */
+        /* Better transitions */
         .transition-all { transition-duration: 300ms; }
+        
+        /* Custom scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        input:focus, textarea:focus { box-shadow: 0 0 0 2px rgba(179, 45, 46, 0.1); }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Input Focus */
+        input:focus, textarea:focus {
+            box-shadow: 0 0 0 2px rgba(179, 45, 46, 0.1);
+        }
     </style>
 
     <script type="importmap">
